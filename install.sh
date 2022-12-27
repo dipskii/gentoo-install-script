@@ -80,7 +80,7 @@ mount --make-slave /mnt/gentoo/run
 
 wget https://raw.githubusercontent.com/dipskii/gentoo-install-script/main/chroot.sh
 chmod +x chroot.sh
-sed -i "s|\!\!PLACEHOLDER\!\!|"$partdisk"1|g" chroot.sh
+sed -i "s|\!\!PLACEHOLDER\!\!|$partdisk|g" chroot.sh
 
 echo "Please chroot into your Gentoo install, then run 'chroot.sh'
 # chroot /mnt/gentoo /bin/bash
