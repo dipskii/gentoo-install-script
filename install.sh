@@ -57,10 +57,8 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 # make.conf tomfoolery
 # change this to match your cpu architecture and thread count!
 
-mv /mnt/gentoo/etc/portage/make.conf /mnt/gentoo/etc/portage/make.conf.tmp
-sed -e 's/-O2 -pipe/-O2 -march=skylake -pipe/' /mnt/gentoo/etc/portage/make.conf.tmp >> /mnt/gentoo/etc/portage/make.conf
-echo "\nMAKEOPTS=\"-j16\"" >> make.conf
-rm -f /mnt/gentoo/etc/portage/make.conf.tmp
+sed -i 's/-O2 -pipe/-O2 -march=skylake -pipe/' /mnt/gentoo/etc/portage/make.conf
+echo "MAKEOPTS=\"-j16\"" >> make.conf
 
 # mirrors
 # i tried to automate this but i kept getting errors
@@ -82,6 +80,7 @@ mount --make-slave /mnt/gentoo/run
 
 wget https://raw.githubusercontent.com/dipskii/gentoo-install-script/main/chroot.sh
 chmod +x chroot.sh
+sed -i "s|\!\!PLACEHOLDER\!\!|"$partdisk"1|g" chroot.sh
 
 echo "Please chroot into your Gentoo install, then run 'chroot.sh'
 # chroot /mnt/gentoo /bin/bash
