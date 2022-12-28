@@ -1,11 +1,9 @@
 #!/bin/bash
 # nice formatting
-RED='\033[0;31m'
-NC='\033[0m' # No Color
 
 # drive partitioning
 lsblk # lists disks
-echo "select disk for installation (type ${RED}entirety${NC} of name field from lsblk result)"
+echo "select disk for installation (type entirety of name field from lsblk result)"
 read partdisk
 
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk ${partdisk}
@@ -41,13 +39,7 @@ mount ${partdisk}3 /mnt/gentoo
 cd /mnt/gentoo
 
 echo "Please select \"Stage 3 desktop profile | openrc\" (this is manual to keep the script up to date!)"
-while [ true ] ; do
-read -t 3 -n 1
-if [ $? = 0 ] ; then
-exit ;
-else
-fi
-done
+sleep 5
 
 links gentoo.org/downloads
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
