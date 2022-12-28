@@ -31,14 +31,12 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk ${partdisk}
 EOF
 
 # creating filesystems
-
 mkfs.vfat -F 32 ${partdisk}1
 mkswap ${partdisk}2
 swapon ${partdisk}2
 mkfs.ext4 ${partdisk}3
 
 # mounting and installing stage3 tarball
-
 mount ${partdisk}3 /mnt/gentoo
 cd /mnt/gentoo
 
@@ -56,19 +54,16 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # make.conf tomfoolery
 # change this to match your cpu architecture and thread count!
-
 sed -i 's/-O2 -pipe/-O2 -march=skylake -pipe/' /mnt/gentoo/etc/portage/make.conf
 echo "MAKEOPTS=\"-j16\"" >> make.conf
 
 # mirrors
 # i tried to automate this but i kept getting errors
-
 mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
 cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 
 # chroot setup
-
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
@@ -82,9 +77,15 @@ wget https://raw.githubusercontent.com/dipskii/gentoo-install-script/main/chroot
 chmod +x chroot.sh
 sed -i "s|\!\!PLACEHOLDER\!\!|$partdisk|g" chroot.sh
 
-echo "Please chroot into your Gentoo install, then run 'chroot.sh'
-# chroot /mnt/gentoo /bin/bash
+echo "Please run these commands"
 # source /etc/profile
 # export PS1=\"(chroot) ${PS1}\"
 # ./chroot.sh
 "
+chroot /mnt/gentoo /bin/bash
+
+#this should execute as soon as the chroot script finishes
+cd
+umount -l /mnt/gentoo/dev{/shm,/pts,}
+umount -R /mnt/gentoo
+reboot
