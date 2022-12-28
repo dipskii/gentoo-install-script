@@ -44,6 +44,7 @@ emerge --config sys-kernel/gentoo-kernel-bin
 
 # i do not want to make an fstab file
 emerge sys-fs/genfstab
+genfstab -U / >> /etc/fstab
 
 # network setup
 sed -i "s/localhost/gentoo/g" /etc/conf.d/hostname
