@@ -73,3 +73,5 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "media-libs/libsndfile minimal" >> /etc/portage/package.use
 emerge media-video/wireplumber media-video/pipewire x11-drivers/nvidia-drivers
+
+exit
