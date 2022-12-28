@@ -69,7 +69,7 @@ wget https://raw.githubusercontent.com/dipskii/gentoo-install-script/main/chroot
 chmod +x chroot.sh
 sed -i "s|\!\!PLACEHOLDER\!\!|$partdisk|g" chroot.sh
 
-echo "Please run these commands"
+echo "Please run these commands
 # source /etc/profile
 # export PS1=\"(chroot) ${PS1}\"
 # ./chroot.sh
